@@ -44,6 +44,5 @@ static async Task ExplicitMain()
         Console.WriteLine($"Error: {ex.Message}");
     }
 
-    Animation.HideSpinner();
     Input.PressAnyKeyToExit();
 }
