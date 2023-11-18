@@ -1,4 +1,4 @@
-using Transcriber.Client;
+using Transcriber.Clients;
 
 namespace Transcriber;
 
@@ -38,7 +38,7 @@ internal static class Input
 
     private static bool TryParseSelection(string? input, int optionCount, out int selection)
     {
-        return int.TryParse(input, out selection) || selection < 1 || selection > optionCount;
+        return int.TryParse(input, out selection) && selection > 0 && selection <= optionCount;
     }
 
     internal static SupportedLanguage ChooseLanguage()
