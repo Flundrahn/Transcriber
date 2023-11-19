@@ -7,6 +7,7 @@ internal static class AppSettings
     private static readonly IConfigurationRoot _config = Initialize();
     internal static string GoogleCredentialsFilePath => _config["ApiCredentialsPath"] ?? throw new Exception("ApiCredentialsPath not found in appsettings.json");
     internal static string AudioFilePath => _config["DataPath"] ?? throw new Exception("AudioFilePath not found in appsettings.json");
+    internal static string GoogleCloudProjectNumber => _config["GoogleCloudProjectNumber"] ?? throw new Exception("GoogleCloudProjectNumber not found in appsettings.json");
 
     private static IConfigurationRoot Initialize()
     {
