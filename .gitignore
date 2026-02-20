@@ -1,5 +1,7 @@
 /Data/
 bin/
 obj/
+.vs/
 transcriberapi-*.json
-appsettings.json
+appsettings*.json
+!appsettings.json
