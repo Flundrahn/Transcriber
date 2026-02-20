@@ -4,13 +4,13 @@ namespace Transcriber.Clients;
 
 public class LanguageMapper : ILanguageMapper
 {
-    public string GetLanguageCode(SupportedLanguage language)
+    public string GetLanguageCode(TranscriberSupportedLanguage language)
     {
         return language switch
         {
-            SupportedLanguage.Svenska => LanguageCodes.Swedish.Sweden,
-            SupportedLanguage.English => LanguageCodes.English.UnitedStates,
-            SupportedLanguage.Portugues => LanguageCodes.Portuguese.Brazil,
+            TranscriberSupportedLanguage.Svenska => LanguageCodes.Swedish.Sweden,
+            TranscriberSupportedLanguage.English => LanguageCodes.English.UnitedStates,
+            TranscriberSupportedLanguage.Portugues => LanguageCodes.Portuguese.Brazil,
             _ => throw new ArgumentOutOfRangeException(nameof(language), language, "Language not supported")
         };
     }
@@ -18,10 +18,10 @@ public class LanguageMapper : ILanguageMapper
 
 public interface ILanguageMapper
 {
-    string GetLanguageCode(SupportedLanguage language);
+    string GetLanguageCode(TranscriberSupportedLanguage language);
 }
 
-public enum SupportedLanguage
+public enum TranscriberSupportedLanguage
 {
     English,
     Svenska,

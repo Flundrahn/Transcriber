@@ -41,7 +41,7 @@ internal static class Input
         return int.TryParse(input, out selection) && selection > 0 && selection <= optionCount;
     }
 
-    internal static SupportedLanguage ChooseLanguage()
+    internal static TranscriberSupportedLanguage ChooseLanguage()
     {
         Console.WriteLine("Choose language:");
         var supportedLanguages = GetSupportedLanguages();
@@ -54,12 +54,12 @@ internal static class Input
             return ChooseLanguage();
         }
 
-        return EnumUtils.Parse<SupportedLanguage>(selection - 1);
+        return EnumUtils.Parse<TranscriberSupportedLanguage>(selection - 1);
     }
 
     private static string[] GetSupportedLanguages()
     {
-        var languages = EnumUtils.GetValues<SupportedLanguage>();
+        var languages = EnumUtils.GetValues<TranscriberSupportedLanguage>();
         return languages
             .Select(l => l.ToString())
             .ToArray();

@@ -24,7 +24,7 @@ static async Task ExplicitMain()
 static async Task<ClientResult<string>> Transcribe()
 {
     string audioFilePath = Input.ChooseAudioFile();
-    SupportedLanguage language = Input.ChooseLanguage();
+    TranscriberSupportedLanguage language = Input.ChooseLanguage();
 
     var client = new TranscriberClient(new LanguageMapper());
 
@@ -54,7 +54,7 @@ static async Task Translate(string text)
     switch (input.Key)
     {
         case ConsoleKey.Y:
-            SupportedLanguage language = Input.ChooseLanguage();
+            TranscriberSupportedLanguage language = Input.ChooseLanguage();
             Console.WriteLine();
             Console.WriteLine("Translating text...");
             Animation.ShowSpinner();

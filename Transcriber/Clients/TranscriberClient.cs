@@ -14,7 +14,7 @@ internal class TranscriberClient
         _languageMapper = languageMapper;
     }
 
-    internal async Task<ClientResult<string>> TranscribeAudio(string audioFilePath, SupportedLanguage language)
+    internal async Task<ClientResult<string>> TranscribeAudio(string audioFilePath, TranscriberSupportedLanguage language)
     {
         var audio = RecognitionAudio.FromFile(audioFilePath);
         var config = new RecognitionConfig

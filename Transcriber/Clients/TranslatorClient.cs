@@ -13,7 +13,7 @@ internal class TranslatorClient
         _languageMapper = languageMapper;
     }
 
-    internal async Task<ClientResult<string>> TranslateText(string text, SupportedLanguage language)
+    internal async Task<ClientResult<string>> TranslateText(string text, TranscriberSupportedLanguage language)
     {
         var request = new TranslateTextRequest
         {
