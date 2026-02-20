@@ -1,18 +1,123 @@
-using Microsoft.Extensions.Configuration;
+using System.Collections.ObjectModel;
+using System.IO.Abstractions;
 
 namespace Transcriber;
 
-internal static class AppSettings
+public class AppSettings
 {
-    private static readonly IConfigurationRoot _config = Initialize();
-    internal static string GoogleCredentialsFilePath => _config["ApiCredentialsPath"] ?? throw new Exception("ApiCredentialsPath not found in appsettings.json");
-    internal static string AudioFilePath => _config["DataPath"] ?? throw new Exception("AudioFilePath not found in appsettings.json");
-    internal static string GoogleCloudProjectNumber => _config["GoogleCloudProjectNumber"] ?? throw new Exception("GoogleCloudProjectNumber not found in appsettings.json");
+    public string? Environment { get; set; }
+    public string GoogleCredentialsFilePath { get; set; } = string.Empty;
+    public string AudioDirectoryPath { get; set; } = string.Empty;
+    public string GoogleCloudProjectNumber { get; set; } = string.Empty;
+}
 
-    private static IConfigurationRoot Initialize()
+internal class AppSettingsValidator
+{
+    private readonly IFileSystem _fileSystem;
+    private List<string> _warnings = [];
+    internal ReadOnlyCollection<string> Warnings => _warnings.AsReadOnly();
+
+    private List<string> _errors = [];
+    internal ReadOnlyCollection<string> Errors => _errors.AsReadOnly();
+
+    internal AppSettingsValidator() : this(new FileSystem())
     {
-        return new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();
+    }
+
+    // Ctor for unit tests
+    internal AppSettingsValidator(IFileSystem fileSystem)
+    {
+        _fileSystem = fileSystem;
+    }
+
+    internal void Validate(AppSettings appSettings)
+    {
+        _warnings.Clear();
+        _errors.Clear();
+        ValidateAudioDirectoryPath(appSettings.AudioDirectoryPath);
+        ValidateApiCredentialsPath(appSettings.GoogleCredentialsFilePath);
+        ValidateGoogleCloudProjectNumber(appSettings.GoogleCloudProjectNumber);
+    }
+
+    private void ValidateAudioDirectoryPath(string? audioDirectoryPath)
+    {
+        if (string.IsNullOrWhiteSpace(audioDirectoryPath))
+        {
+            _errors.Add($"{nameof(AppSettings.AudioDirectoryPath)} is required.");
+            return;
+        }
+
+        if (!_fileSystem.Path.IsPathRooted(audioDirectoryPath))
+        {
+            _errors.Add($"{nameof(AppSettings.AudioDirectoryPath)} must be an absolute path.");
+            return;
+        }
+
+        var directory = _fileSystem.Path.GetDirectoryName(audioDirectoryPath);
+        if (string.IsNullOrWhiteSpace(directory) || !_fileSystem.Directory.Exists(directory))
+        {
+            _errors.Add($"{nameof(AppSettings.AudioDirectoryPath)} directory does not exist: {directory}");
+            return;
+        }
+    }
+
+    private void ValidateApiCredentialsPath(string? apiCredentialsPath)
+    {
+        if (string.IsNullOrWhiteSpace(apiCredentialsPath))
+        {
+            _errors.Add($"{nameof(AppSettings.GoogleCredentialsFilePath)} is required.");
+            return;
+        }
+
+        if (!_fileSystem.Path.IsPathRooted(apiCredentialsPath))
+        {
+            _errors.Add($"{nameof(AppSettings.GoogleCredentialsFilePath)} must be an absolute path.");
+            return;
+        }
+
+        string? directory = _fileSystem.Path.GetDirectoryName(apiCredentialsPath);
+        if (string.IsNullOrWhiteSpace(directory) || !_fileSystem.Directory.Exists(directory))
+        {
+            _errors.Add($"{nameof(AppSettings.GoogleCredentialsFilePath)} directory does not exist: {directory}");
+            return;
+        }
+
+        if (!_fileSystem.File.Exists(apiCredentialsPath))
+        {
+            _errors.Add($"{nameof(AppSettings.GoogleCredentialsFilePath)} file does not exist: {apiCredentialsPath}");
+            return;
+        }
+
+        if (!apiCredentialsPath.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+        {
+            _errors.Add($"{nameof(AppSettings.GoogleCredentialsFilePath)} must point to a .json file.");
+            return;
+        }
+    }
+
+    private void ValidateGoogleCloudProjectNumber(string? projectNumber)
+    {
+        if (string.IsNullOrWhiteSpace(projectNumber))
+        {
+            _errors.Add($"{nameof(AppSettings.GoogleCloudProjectNumber)} is required.");
+            return;
+        }
+
+        if (!ulong.TryParse(projectNumber, out ulong projectNumberAsULong))
+        {
+            _warnings.Add($"{nameof(AppSettings.GoogleCloudProjectNumber)} is not a number, this is unusual and may indicate a misconfiguration.");
+            return;
+        }
+
+        if (projectNumberAsULong < 10000000000)
+        {
+            _warnings.Add($"{nameof(AppSettings.GoogleCloudProjectNumber)} has fewer than 12 digits, this is unusual and may indicate a misconfiguration. If Google Cloud connection works as expected this warning can be safely ignored.");
+            return;
+        }
+        
+        if (projectNumberAsULong > 999999999999)
+        {
+            _warnings.Add($"{nameof(AppSettings.GoogleCloudProjectNumber)} has more than 12 digits, this is unusual and may indicate a misconfiguration. If Google Cloud connection works as expected this warning can be safely ignored.");
+        }
     }
 }

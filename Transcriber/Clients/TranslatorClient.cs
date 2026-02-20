@@ -7,10 +7,12 @@ internal class TranslatorClient
 {
     private readonly TranslationServiceClient _translationServiceClient = TranslationServiceClient.Create();
     private readonly ILanguageMapper _languageMapper;
+    private readonly AppSettings _appSettings;
 
-    internal TranslatorClient(ILanguageMapper languageMapper)
+    internal TranslatorClient(ILanguageMapper languageMapper, AppSettings appSettings)
     {
         _languageMapper = languageMapper;
+        _appSettings = appSettings;
     }
 
     internal async Task<ClientResult<string>> TranslateText(string text, TranscriberSupportedLanguage language)
@@ -19,7 +21,7 @@ internal class TranslatorClient
         {
             Contents = { text },
             TargetLanguageCode = _languageMapper.GetLanguageCode(language),
-            Parent = new ProjectName(AppSettings.GoogleCloudProjectNumber).ToString(),
+            Parent = new ProjectName(_appSettings.GoogleCloudProjectNumber).ToString(),
         };
 
         TranslateTextResponse response = await _translationServiceClient.TranslateTextAsync(request);

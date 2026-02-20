@@ -2,11 +2,18 @@ using Transcriber.Clients;
 
 namespace Transcriber;
 
-internal static class InputHelper
+internal class InputHelper
 {
-    internal static string ChooseAudioFile()
+    private readonly AppSettings _appSettings;
+
+    internal InputHelper(AppSettings appSettings)
     {
-        var audioFiles = Directory.GetFiles(AppSettings.AudioFilePath); // , "*.mp3"
+        _appSettings = appSettings;
+    }
+
+    internal string ChooseAudioFile()
+    {
+        var audioFiles = Directory.GetFiles(_appSettings.AudioDirectoryPath);
         var audioFileNames = audioFiles.Select(f => Path.GetFileName(f)).ToArray();
 
         Console.WriteLine("Choose audio file to transcribe:");
@@ -22,7 +29,7 @@ internal static class InputHelper
         return audioFiles[index - 1];
     }
 
-    private static void WriteOptions(IList<string> options)
+    private void WriteOptions(IList<string> options)
     {
         for (int i = 0; i < options.Count; i++)
         {
@@ -30,18 +37,18 @@ internal static class InputHelper
         }
     }
 
-    internal static void PressAnyKeyToExit()
+    internal void PressAnyKeyToExit()
     {
         Console.WriteLine("Press any key to exit.");
         Console.ReadKey();
     }
 
-    private static bool TryParseSelection(string? input, int optionCount, out int selection)
+    private bool TryParseSelection(string? input, int optionCount, out int selection)
     {
         return int.TryParse(input, out selection) && selection > 0 && selection <= optionCount;
     }
 
-    internal static TranscriberSupportedLanguage ChooseLanguage()
+    internal TranscriberSupportedLanguage ChooseLanguage()
     {
         Console.WriteLine("Choose language:");
         var supportedLanguages = GetSupportedLanguages();
@@ -57,7 +64,7 @@ internal static class InputHelper
         return EnumUtils.Parse<TranscriberSupportedLanguage>(selection - 1);
     }
 
-    private static string[] GetSupportedLanguages()
+    private string[] GetSupportedLanguages()
     {
         var languages = EnumUtils.GetValues<TranscriberSupportedLanguage>();
         return languages
