@@ -1,6 +1,6 @@
 using Transcriber;
 
-namespace Tests;
+namespace Transcriber.Tests;
 
 public class UnitTest1
 {

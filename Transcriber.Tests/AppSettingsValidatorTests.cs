@@ -1,6 +1,8 @@
 using Transcriber;
 using System.IO.Abstractions.TestingHelpers;
 
+namespace Transcriber.Tests;
+
 public class AppSettingsValidatorTests
 {
     private MockFileSystem _mockFileSystem;
