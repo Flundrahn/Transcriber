@@ -2,7 +2,7 @@ using Transcriber.Clients;
 
 namespace Transcriber;
 
-internal static class Input
+internal static class InputHelper
 {
     internal static string ChooseAudioFile()
     {
