@@ -37,16 +37,12 @@ internal class ConsoleApp
 
         foreach(string warning in settingsValidator.Warnings)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"[Warning]: {warning}");
-            Console.ResetColor();
+            ConsoleExtensions.WriteWarningLine(warning);
         }
 
         foreach(string error in settingsValidator.Errors)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"[Error]: {error}");
-            Console.ResetColor();
+            ConsoleExtensions.WriteErrorLine(error);
         }
 
         if (settingsValidator.Errors.Count > 0)
@@ -59,14 +55,16 @@ internal class ConsoleApp
     {
         try
         {
+            // TODO: Probably move this to the configuration methods
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", AppSettings.GoogleCredentialsFilePath);
+
             var response = await Transcribe();
             await Translate(response.GetResult());
         }
         catch (Exception ex)
         {
             Animation.HideSpinner();
-            Console.WriteLine($"Error: {ex.Message}");
+            ConsoleExtensions.WriteErrorLine(ex.Message);
         }
 
         _inputHelper.PressAnyKeyToExit();
@@ -87,7 +85,7 @@ internal class ConsoleApp
         Animation.HideSpinner();
         if (!response.IsSuccessful)
         {
-            Console.WriteLine("No results.");
+            Console.WriteLine("No successful results.");
             await Main();
             return response;
         }
