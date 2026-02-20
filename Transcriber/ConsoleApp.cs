@@ -7,14 +7,14 @@ namespace Transcriber;
 internal class ConsoleApp
 {
     private readonly InputHelper _inputHelper;
-    internal AppSettings AppSettings { get; private init; }
+    private readonly AppSettings _appSettings;
 
     internal ConsoleApp()
     {
         AppSettings appSettings = ConfigureApp();
         ValidateAppSettings(appSettings);
-        AppSettings = appSettings;
-        _inputHelper = new InputHelper(AppSettings);
+        _appSettings = appSettings;
+        _inputHelper = new InputHelper(_appSettings);
     }
 
     private AppSettings ConfigureApp()
@@ -26,8 +26,13 @@ internal class ConsoleApp
             .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
             .Build();
 
-        return config.Get<AppSettings>()
+        var appSettings = config.Get<AppSettings>()
             ?? throw new InvalidOperationException("Failed to bind AppSettings, please check the settings json and try again.");
+
+        // So Google Cloud libraries can find the credentials file path 
+        Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", appSettings.GoogleCredentialsFilePath);
+
+        return appSettings;
     }
 
     private void ValidateAppSettings(AppSettings appSettings)
@@ -55,8 +60,6 @@ internal class ConsoleApp
     {
         try
         {
-            // TODO: Probably move this to the configuration methods
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", AppSettings.GoogleCredentialsFilePath);
 
             var response = await Transcribe();
             await Translate(response.GetResult());
@@ -107,7 +110,7 @@ internal class ConsoleApp
                 Console.WriteLine("Translating text...");
                 Animation.ShowSpinner();
 
-                var client = new TranslatorClient(new LanguageMapper(), AppSettings);
+                var client = new TranslatorClient(new LanguageMapper(), _appSettings);
                 ClientResult<string> response = await client.TranslateText(text, language);
 
                 Animation.HideSpinner();
