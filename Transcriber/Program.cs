@@ -1,5 +1,5 @@
 ﻿using Transcriber;
-using Transcriber.Animation;
+using Transcriber.Animations;
 using Transcriber.Clients;
 
 await ExplicitMain();
