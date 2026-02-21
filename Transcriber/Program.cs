@@ -8,19 +8,13 @@ static void ValidateAppSettings(AppSettings appSettings)
     settingsValidator.Validate(appSettings);
 
     foreach (string warning in settingsValidator.Warnings)
-    {
         ConsoleExtensions.WriteWarningLine(warning);
-    }
 
     foreach (string error in settingsValidator.Errors)
-    {
         ConsoleExtensions.WriteErrorLine(error);
-    }
 
     if (settingsValidator.Errors.Count > 0)
-    {
         throw new InvalidOperationException("App settings are invalid, please fix the errors and try again.");
-    }
 }
 
 string? environmentName = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
@@ -38,8 +32,8 @@ ValidateAppSettings(appSettings);
 // So Google Cloud libraries can find the credentials file path 
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", appSettings.GoogleCredentialsFilePath);
 
-var inputHelper = new InputHelper(appSettings);
-var app = new ConsoleApp(appSettings, inputHelper);
+var audioFileProvider = new AudioFileProvider(appSettings);
+var app = new ConsoleApp(appSettings, audioFileProvider);
 
 await app.RunAsync();
 
