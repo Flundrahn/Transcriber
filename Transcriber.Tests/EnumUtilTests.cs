@@ -1,4 +1,4 @@
-using Transcriber;
+using Transcriber.Utils;
 
 namespace Transcriber.Tests;
 

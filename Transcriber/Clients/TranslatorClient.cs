@@ -1,5 +1,6 @@
 using Google.Api.Gax.ResourceNames;
 using Google.Cloud.Translate.V3;
+using Transcriber.Utils;
 
 namespace Transcriber.Clients;
 

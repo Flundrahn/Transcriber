@@ -1,4 +1,4 @@
-namespace Transcriber.Clients;
+namespace Transcriber.Utils;
 
 internal class ClientResult<T>
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Transcriber.Clients;
 using Transcriber.Animations;
+using Transcriber.Utils;
 
 namespace Transcriber;
 

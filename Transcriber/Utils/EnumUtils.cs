@@ -1,4 +1,4 @@
-namespace Transcriber;
+namespace Transcriber.Utils;
 
 public static class EnumUtils
 {
