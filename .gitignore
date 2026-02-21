@@ -2,6 +2,6 @@
 bin/
 obj/
 .vs/
-transcriberapi-*.json
+transcriberproject-*.json
 appsettings*.json
 !appsettings.json
