@@ -15,8 +15,8 @@ internal class ConsoleApp
 {
     private readonly AudioFileProvider _audioFileProvider;
     private readonly AppSettings _appSettings;
-    private readonly TranscriberClient _transcriberClient;
-    private readonly TranslatorClient _translatorClient;
+    private readonly GoogleCloudTranscriberClient _transcriberClient;
+    private readonly GoogleCloudTranslatorClient _translatorClient;
 
     internal ConsoleApp(AppSettings appSettings, AudioFileProvider audioFileProvider)
     {
@@ -24,9 +24,9 @@ internal class ConsoleApp
         _audioFileProvider = audioFileProvider;
 
         // TODO: inject later
-        var languageMapper = new LanguageMapper();
-        _transcriberClient = new TranscriberClient(languageMapper);
-        _translatorClient = new TranslatorClient(languageMapper, _appSettings);
+        var languageMapper = new GoogleCloudLanguageMapper();
+        _transcriberClient = new GoogleCloudTranscriberClient(languageMapper);
+        _translatorClient = new GoogleCloudTranslatorClient(languageMapper, _appSettings);
     }
 
     internal async Task RunAsync()

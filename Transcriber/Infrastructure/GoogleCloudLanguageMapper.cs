@@ -2,7 +2,7 @@ using Google.Cloud.Speech.V1;
 
 namespace Transcriber.Infrastructure;
 
-public class LanguageMapper : ILanguageMapper
+public class GoogleCloudLanguageMapper : ILanguageMapper
 {
     public string GetLanguageCode(TranscriberSupportedLanguage language)
     {
@@ -16,6 +16,7 @@ public class LanguageMapper : ILanguageMapper
     }
 }
 
+// If add more mappers, move up this interface
 public interface ILanguageMapper
 {
     string GetLanguageCode(TranscriberSupportedLanguage language);

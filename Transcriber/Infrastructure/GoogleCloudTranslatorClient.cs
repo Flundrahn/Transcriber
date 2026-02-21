@@ -4,13 +4,13 @@ using Transcriber.Utils;
 
 namespace Transcriber.Infrastructure;
 
-internal class TranslatorClient
+internal class GoogleCloudTranslatorClient
 {
     private readonly TranslationServiceClient _translationServiceClient = TranslationServiceClient.Create();
     private readonly ILanguageMapper _languageMapper;
     private readonly AppSettings _appSettings;
 
-    internal TranslatorClient(ILanguageMapper languageMapper, AppSettings appSettings)
+    internal GoogleCloudTranslatorClient(ILanguageMapper languageMapper, AppSettings appSettings)
     {
         _languageMapper = languageMapper;
         _appSettings = appSettings;

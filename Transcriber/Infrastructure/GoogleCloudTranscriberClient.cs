@@ -5,12 +5,12 @@ using static Google.Cloud.Speech.V1.RecognitionConfig.Types;
 
 namespace Transcriber.Infrastructure;
 
-internal class TranscriberClient
+internal class GoogleCloudTranscriberClient
 {
     private readonly SpeechClient _speechClient = SpeechClient.Create();
     private readonly ILanguageMapper _languageMapper;
 
-    internal TranscriberClient(ILanguageMapper languageMapper)
+    internal GoogleCloudTranscriberClient(ILanguageMapper languageMapper)
     {
         _languageMapper = languageMapper;
     }
