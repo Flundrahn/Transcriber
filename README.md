@@ -1,6 +1,6 @@
 # Transcriber
 
-A .NET 10 console app to play with the Google Cloud Speech-to-Text API.
+A .NET 10 console app to play with the Google Cloud Speech-to-Text API. Originally created to solve the problem of my then girlfriend who was happy about sharing funny voice memos from her Brazilian cousin, and my own Portuguese is muito problemático. Now updated with a vibe coded Spectre.Console UI which was fun.
 
 # Pre-requisites
 - .NET 10 SDK
