@@ -1,6 +1,6 @@
 using Google.Cloud.Speech.V1;
 
-namespace Transcriber.Clients;
+namespace Transcriber.Infrastructure;
 
 public class LanguageMapper : ILanguageMapper
 {

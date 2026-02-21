@@ -3,7 +3,7 @@ using Google.Cloud.Speech.V1;
 using Transcriber.Utils;
 using static Google.Cloud.Speech.V1.RecognitionConfig.Types;
 
-namespace Transcriber.Clients;
+namespace Transcriber.Infrastructure;
 
 internal class TranscriberClient
 {

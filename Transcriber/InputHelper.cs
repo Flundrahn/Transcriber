@@ -1,4 +1,4 @@
-using Transcriber.Clients;
+using Transcriber.Infrastructure;
 using Transcriber.Utils;
 
 namespace Transcriber;

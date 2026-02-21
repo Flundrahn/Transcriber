@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Transcriber.Clients;
+using Transcriber.Infrastructure;
 using Transcriber.Animations;
 using Transcriber.Utils;
 
