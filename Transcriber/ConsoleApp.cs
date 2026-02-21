@@ -74,7 +74,7 @@ internal class ConsoleApp
         _inputHelper.PressAnyKeyToExit();
     }
 
-    internal async Task<ClientResult<string>> Transcribe()
+    internal async Task<Result<string>> Transcribe()
     {
         string audioFilePath = _inputHelper.ChooseAudioFile();
         TranscriberSupportedLanguage language = _inputHelper.ChooseLanguage();
@@ -84,7 +84,7 @@ internal class ConsoleApp
         Console.WriteLine();
         Console.WriteLine("Transcribing audio file...");
         Animation.ShowSpinner();
-        ClientResult<string> response = await client.TranscribeAudio(audioFilePath, language);
+        Result<string> response = await client.TranscribeAudio(audioFilePath, language);
 
         Animation.HideSpinner();
         if (!response.IsSuccessful)
@@ -112,7 +112,7 @@ internal class ConsoleApp
                 Animation.ShowSpinner();
 
                 var client = new TranslatorClient(new LanguageMapper(), _appSettings);
-                ClientResult<string> response = await client.TranslateText(text, language);
+                Result<string> response = await client.TranslateText(text, language);
 
                 Animation.HideSpinner();
                 Console.WriteLine($"Translation: {response.GetResult()}");

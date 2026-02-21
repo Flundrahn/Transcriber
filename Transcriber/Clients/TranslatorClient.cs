@@ -16,7 +16,7 @@ internal class TranslatorClient
         _appSettings = appSettings;
     }
 
-    internal async Task<ClientResult<string>> TranslateText(string text, TranscriberSupportedLanguage language)
+    internal async Task<Result<string>> TranslateText(string text, TranscriberSupportedLanguage language)
     {
         var request = new TranslateTextRequest
         {
@@ -28,9 +28,9 @@ internal class TranslatorClient
         TranslateTextResponse response = await _translationServiceClient.TranslateTextAsync(request);
         if (response.Translations.Count == 0)
         {
-            return ClientResult<string>.Failure("Could not translate text.");
+            return Result<string>.Failure("Could not translate text.");
         }
 
-        return ClientResult<string>.Success(response.Translations[0].TranslatedText);
+        return Result<string>.Success(response.Translations[0].TranslatedText);
     }
 }

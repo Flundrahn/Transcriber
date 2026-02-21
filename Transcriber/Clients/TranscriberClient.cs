@@ -15,7 +15,7 @@ internal class TranscriberClient
         _languageMapper = languageMapper;
     }
 
-    internal async Task<ClientResult<string>> TranscribeAudio(string audioFilePath, TranscriberSupportedLanguage language)
+    internal async Task<Result<string>> TranscribeAudio(string audioFilePath, TranscriberSupportedLanguage language)
     {
         var audio = RecognitionAudio.FromFile(audioFilePath);
         var config = new RecognitionConfig
@@ -35,12 +35,12 @@ internal class TranscriberClient
 
         if (!response.IsSuccessful())
         {
-            return ClientResult<string>.Failure("Could not transcribe audio.");
+            return Result<string>.Failure("Could not transcribe audio.");
         }
 
         string transcriptionResult = ConcatenateAlternativeLines(response.Results);
 
-        return ClientResult<string>.Success(transcriptionResult);
+        return Result<string>.Success(transcriptionResult);
     }
 
     private static string ConcatenateAlternativeLines(IEnumerable<SpeechRecognitionResult> responseResults)

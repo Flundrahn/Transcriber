@@ -1,12 +1,12 @@
 namespace Transcriber.Utils;
 
-internal class ClientResult<T>
+internal class Result<T>
 {
     private readonly T? _result;
     internal bool IsSuccessful { get; }
     internal string Message { get; }
 
-    protected ClientResult(bool isSuccessful, T? result, string? message)
+    protected Result(bool isSuccessful, T? result, string? message)
     {
         IsSuccessful = isSuccessful;
         _result = result;
@@ -23,6 +23,6 @@ internal class ClientResult<T>
         return _result!;
     }
 
-    internal static ClientResult<T> Success(T result) => new ClientResult<T>(true, result, string.Empty);
-    internal static ClientResult<T> Failure(string message) => new ClientResult<T>(false, default, message);
+    internal static Result<T> Success(T result) => new Result<T>(true, result, string.Empty);
+    internal static Result<T> Failure(string message) => new Result<T>(false, default, message);
 }
