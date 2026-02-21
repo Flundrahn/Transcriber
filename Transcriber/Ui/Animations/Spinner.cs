@@ -1,4 +1,4 @@
-namespace Transcriber.Animations;
+namespace Transcriber.Ui.Animations;
 
 public class Spinner : IDisposable
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Transcriber;
+using Transcriber.Ui;
 
 static void ValidateAppSettings(AppSettings appSettings)
 {

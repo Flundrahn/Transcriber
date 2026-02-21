@@ -1,4 +1,4 @@
-﻿namespace Transcriber;
+﻿namespace Transcriber.Ui;
 
 public class ConsoleExtensions
 {

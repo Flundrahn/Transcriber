@@ -1,7 +1,7 @@
 using Transcriber.Infrastructure;
 using Transcriber.Utils;
 
-namespace Transcriber;
+namespace Transcriber.Ui;
 
 internal class InputHelper
 {

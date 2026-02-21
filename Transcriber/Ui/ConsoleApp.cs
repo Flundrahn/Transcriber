@@ -1,8 +1,8 @@
 ﻿using Transcriber.Infrastructure;
-using Transcriber.Animations;
 using Transcriber.Utils;
+using Transcriber.Ui.Animations;
 
-namespace Transcriber;
+namespace Transcriber.Ui;
 
 internal class ConsoleApp
 {

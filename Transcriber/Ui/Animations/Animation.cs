@@ -1,4 +1,4 @@
-namespace Transcriber.Animations;
+namespace Transcriber.Ui.Animations;
 
 public static class Animation
 {

@@ -29,8 +29,4 @@
 		<InternalsVisibleTo Include="Transcriber.Tests" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Ui\" />
-	</ItemGroup>
-
 </Project>
